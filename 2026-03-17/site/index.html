@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Práctica 3 - Mateo Crimella</title>
+  <link rel="stylesheet" href="css/slides.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <div id="playground">
+    <x-slide-container id="ui-slides">
+      <x-slide id="config-slide">
+        <h1>Configuración</h1>
+        <form id="config-form">
+          <label for="preset">Dificultad</label>
+          <select required id="preset">
+            <option value="easy">Fácil</option>
+            <option value="medium">Medio</option>
+            <option value="hard">Difícil</option>
+            <option value="flash">Flash</option>
+          </select>
+          <label for="number-amount">Cantidad de números</label>
+          <input required type="number" id="number-amount" min="2">
+          <label for="allow-negatives">Permitir negativos</label>
+          <input required type="checkbox" id="allow-negatives">
+          <label for="transition-delay">Pausa entre números (segundos)</label>
+          <input required type="number" id="transition-delay" min="1" step="0.5">
+          <label for="animation">Animación</label>
+          <select required id="animation">
+            <option value="none">Ninguna</option>
+            <option value="fade">Fade</option>
+            <option value="grow">Grow</option>
+            <option value="shrink">Shrink</option>
+          </select>
+        </form>
+        <button type="button" class="goto-next-btn">Iniciar</button>
+      </x-slide>
+
+      <x-slide id="sequence-slide"></x-slide>
+
+      <x-slide id="input-slide">
+        <form class="answer-form">
+          <label for="answer">Resultado de la suma</label>
+          <input required type="number" id="answer" value="0">
+        </form>
+        <button type="button" class="goto-next-btn">Confirmar</button>
+      </x-slide>
+
+      <x-slide id="result-slide">
+        <h1 id="result-title"></h1>
+        <p id="result-correct-answer"></p>
+        <p id="result-elapsed-time"></p>
+        <p id="result-score"></p>
+        <table id="history-table">
+          <thead>
+            <tr>
+              <th>Score</th>
+              <th>Tiempo</th>
+              <th>Esperado</th>
+              <th>Adivinado</th>
+            </tr>
+          </thead>
+          <tbody id="history-tbody"></tbody>
+        </table>
+        <button type="button" class="goto-next-btn">Jugar de nuevo</button>
+      </x-slide>
+    </x-slide-container>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+
+</html>
