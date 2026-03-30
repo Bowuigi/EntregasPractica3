@@ -14,9 +14,10 @@ export function generateSequence(options) {
   let sequence = [];
   let previousGeneratedNumber = 0;
   for (let i = 0; i < options.numberAmount - 1; i++) {
-    let num = step();
-    if (num === previousGeneratedNumber) {
-      num += 1;
+    let num = 0;
+    // Complejidad asintótica: O(suerte)
+    while (num === 0 || num === previousGeneratedNumber) {
+      num = step();
     }
     previousGeneratedNumber = num;
     sequence.push(num);
