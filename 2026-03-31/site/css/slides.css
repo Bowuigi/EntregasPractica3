@@ -1,0 +1,111 @@
+/* Este archivo fue realizado casi enteramente utilizando vibe-coding partiendo desde la especificación ubicada en ./lib-spec.md */
+
+x-slide-container {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+}
+
+x-slide {
+  display: none;
+}
+
+x-slide[active] {
+  display: block;
+  z-index: 1;
+}
+
+/* Animations */
+.xs-animate-fade-in {
+  animation: xs-fade-in 0.4s ease-out forwards;
+}
+
+.xs-animate-fade-out {
+  animation: xs-fade-out 0.4s ease-out forwards;
+}
+
+.xs-animate-grow-in {
+  animation: xs-grow-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.xs-animate-grow-out {
+  animation: xs-grow-out 0.4s ease-in forwards;
+}
+
+.xs-animate-shrink-in {
+  animation: xs-shrink-in 0.4s ease-out forwards;
+}
+
+.xs-animate-shrink-out {
+  animation: xs-shrink-out 0.4s ease-in forwards;
+}
+
+@keyframes xs-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes xs-fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes xs-grow-in {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes xs-grow-out {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+@keyframes xs-shrink-in {
+  from {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes xs-shrink-out {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}

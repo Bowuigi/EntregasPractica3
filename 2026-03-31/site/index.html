@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Práctica 3</title>
+  <link rel="stylesheet" href="css/slides.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <x-slide-container id="ui-slide-container">
+    <x-slide id="ui-load-interstitial">
+      <h1 id="ui-load-interstitial-message">Cargando...</h1>
+    </x-slide>
+    <x-slide id="ui-pick-category">
+      <h1>Elige una categoría</h1>
+      <div id="ui-pick-category-container">
+      </div>
+    </x-slide>
+    <x-slide id="ui-questions">
+      <p id="ui-questions-marker">Pregunta 1 de 5</p>
+      <p id="ui-questions-timer">5 segundos restantes</p>
+      <x-slide-container id="ui-questions-questions">
+      </x-slide-container>
+    </x-slide>
+    <x-slide id="ui-final-result">
+      <h1>¡Juego terminado!</h1>
+      <dl>
+        <dt>Cantidad de preguntas</dt>
+        <dd>5</dd>
+        <dt>Respuestas correctas</dt>
+        <dd id="ui-final-result-correct-answers">0</dd>
+        <dt>Respuestas incorrectas</dt>
+        <dd id="ui-final-result-wrong-answers">0</dd>
+        <dt>Preguntas sin responder</dt>
+        <dd id="ui-final-result-unknown-answers">0</dd>
+      </dl>
+    </x-slide>
+  </x-slide-container>
+  <script type="module" src="js/main.js"></script>
+</body>
+
+</html>

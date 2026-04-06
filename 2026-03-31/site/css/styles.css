@@ -1,0 +1,252 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+x-slide-container {
+  display: block;
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 5em;
+  border-radius: 20px;
+}
+
+/* Slide styles */
+/* x-slide { */
+/* display: none; */
+/* background: white; */
+/* border-radius: 20px; */
+/* padding: 40px; */
+/* box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); */
+/* animation: slideIn 0.5s ease-out; */
+/* } */
+
+/* x-slide[active] { */
+/* display: block; */
+/* } */
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Typography */
+h1 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Category picker styles */
+#ui-pick-category-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.ui-pick-category-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ui-pick-category-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.ui-pick-category-button:active {
+  transform: translateY(0);
+}
+
+/* Questions styles */
+#ui-questions-marker,
+#ui-questions-timer {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+#ui-questions-marker {
+  background: #f0f0f0;
+  color: #666;
+  font-weight: 600;
+}
+
+#ui-questions-timer {
+  background: #ff6b6b;
+  color: white;
+  font-weight: 600;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Individual question styles */
+
+.question {
+  text-align: center;
+}
+
+.question-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 30px;
+  line-height: 1.3;
+}
+
+.question-answers {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 30px 0;
+}
+
+.question-answers button {
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  padding: 15px 20px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #495057;
+}
+
+.question-answers button:hover {
+  background: #667eea;
+  border-color: #667eea;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.question-answers button:active {
+  transform: translateY(0);
+}
+
+.questions-correct-answer {
+  background: lime !important;
+  color: black !important;
+}
+
+.questions-wrong-answer {
+  background: red !important;
+  color: white !important;
+}
+
+.question-difficulty {
+  display: inline-block;
+  background: #ffc107;
+  color: black;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+/* Final results styles */
+#ui-final-result {
+  text-align: center;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 15px 20px;
+  text-align: left;
+  max-width: 400px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 15px;
+}
+
+dt {
+  font-weight: 600;
+  color: #495057;
+  font-size: 1.1rem;
+}
+
+dd {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #667eea;
+  text-align: right;
+}
+
+#ui-final-result-correct-answers {
+  color: #28a745;
+}
+
+#ui-final-result-wrong-answers {
+  color: #dc3545;
+}
+
+#ui-final-result-unknown-answers {
+  color: #ffc107;
+}
+
+#ui-load-interstitial-message {
+  font-size: 1.5rem;
+}
+
+/* Focus states for accessibility */
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.5);
+}
+
+/* Optional: Add a subtle glow effect to active elements */
+.question-answers button:focus {
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.5);
+}
