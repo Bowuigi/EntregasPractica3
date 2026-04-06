@@ -1,0 +1,110 @@
+/* Based on Edward Tufte's principles of data visualization and typography */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+}
+
+body {
+  font-family: 'et-book', 'Palatino', 'Georgia', 'Times New Roman', serif;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: #111;
+  width: 50em;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  background: #fff;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: normal;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+#amount-container {
+  margin: 2rem 0 2.5rem 0;
+  padding: 1rem 0;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+#amount-input {
+  font-family: 'Inconsolata', 'Courier New', monospace;
+  font-size: 1rem;
+  padding: 0.4rem 0.6rem;
+  width: 15em;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  background: #fff;
+}
+
+#amount-submit {
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.4rem 1rem;
+  margin-left: 0.5rem;
+  background: none;
+  border: 1px solid #111;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+#amount-submit:hover {
+  background: #111;
+  color: #fff;
+}
+
+.msg-ok {
+  display: none;
+}
+
+.msg-error {
+  display: inline-block;
+  color: #ff0000;
+  margin-left: 1rem;
+  font-size: 0.9rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+}
+
+thead {
+  border-bottom: 1px solid #111;
+}
+
+th {
+  text-align: left;
+  padding: 0.6rem 0.5rem 0.6rem 0;
+  font-weight: normal;
+  font-style: italic;
+  color: #444;
+}
+
+td {
+  padding: 0.5rem 0.5rem 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+tbody tr:hover td {
+  background-color: #fafafa;
+}
+
+tbody th {
+  text-align: left;
+  padding: 0.5rem 0.5rem 0.5rem 0;
+  font-weight: 500;
+  border-bottom: 1px solid #eee;
+}
+
+td,
+#amount-input {
+  font-family: 'Inconsolata', 'Courier New', monospace;
+}

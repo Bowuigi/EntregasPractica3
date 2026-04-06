@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Práctica 3 - Mateo Crimella</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <h1>Dólares estadounidenses (USD) a pesos argentinos (ARS)</h1>
+  <div id="amount-container">
+    <input type="number" id="amount-input" min="0" value="0">
+    <button type="button" id="amount-submit">Actualizar</button>
+    <p id="amount-error-message" class="msg-ok">La página todavía no terminó de cargar</p>
+  </div>
+  <table>
+    <thead>
+      <th>Tipo de dólar</th>
+      <th>Compra por unidad</th>
+      <th>Venta por unidad</th>
+      <th>Compra total</th>
+      <th>Venta total</th>
+    </thead>
+    <tbody>
+      <tr>
+        <th>Oficial</th>
+        <td id="oficial-buy-value-per-unit">$ 0,00</td>
+        <td id="oficial-sell-value-per-unit">$ 0,00</td>
+        <td id="oficial-buy-value-total">$ 0,00</td>
+        <td id="oficial-sell-value-total">$ 0,00</td>
+      </tr>
+      <tr>
+        <th>Blue</th>
+        <td id="blue-buy-value-per-unit">$ 0,00</td>
+        <td id="blue-sell-value-per-unit">$ 0,00</td>
+        <td id="blue-buy-value-total">$ 0,00</td>
+        <td id="blue-sell-value-total">$ 0,00</td>
+      </tr>
+      <tr>
+        <th>Bolsa/MEP</th>
+        <td id="bolsa-buy-value-per-unit">$ 0,00</td>
+        <td id="bolsa-sell-value-per-unit">$ 0,00</td>
+        <td id="bolsa-buy-value-total">$ 0,00</td>
+        <td id="bolsa-sell-value-total">$ 0,00</td>
+      </tr>
+    </tbody>
+  </table>
+  <script type="module" src="js/main.js"></script>
+</body>
+
+</html>
