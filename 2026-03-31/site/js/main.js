@@ -69,7 +69,7 @@ ui.slides.questions.addEventListener('before-enter', () => {
       nextQuestion();
       return;
     }
-    ui.questions.timer.textContent = `${timer.count} segundos restantes.`;
+    ui.questions.timer.textContent = `${timer.count} segundos restantes`;
     timer.count--;
   }, 1000);
 

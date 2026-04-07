@@ -22,23 +22,9 @@ x-slide-container {
   max-width: 800px;
   margin: 0 auto;
   background: white;
-  padding: 5em;
+  padding: 2em;
   border-radius: 20px;
 }
-
-/* Slide styles */
-/* x-slide { */
-/* display: none; */
-/* background: white; */
-/* border-radius: 20px; */
-/* padding: 40px; */
-/* box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); */
-/* animation: slideIn 0.5s ease-out; */
-/* } */
-
-/* x-slide[active] { */
-/* display: block; */
-/* } */
 
 @keyframes slideIn {
   from {
@@ -95,10 +81,18 @@ h1 {
 }
 
 /* Questions styles */
+
+#ui-questions-permanent-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
 #ui-questions-marker,
 #ui-questions-timer {
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   margin-bottom: 20px;
   padding: 10px;
   border-radius: 10px;
@@ -152,7 +146,7 @@ h1 {
 
 .question-answers button {
   background: #f8f9fa;
-  border: 2px solid #e9ecef;
+  border: 2px solid #bbbbbb;
   padding: 15px 20px;
   font-size: 1.1rem;
   font-weight: 500;
