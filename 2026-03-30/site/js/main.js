@@ -1,7 +1,9 @@
 // @ts-check
 import { bindAllWithPrefix, bindAllWithSuffix, fromCamelCase, toCamelCase } from "./binding.js";
 
-const formatCurrency = new Intl.NumberFormat('es-AR', { style: "currency", currency: 'ARS' }).format;
+const readCurrencyARS = (s) => s.replaceAll(/[\$\. ]/g, '').replaceAll(/,/g, '.');
+const formatCurrencyARS = new Intl.NumberFormat('es-AR', { style: "currency", currency: 'ARS' }).format;
+const formatCurrencyUSD = new Intl.NumberFormat('es-AR', { style: "currency", currency: 'USD' }).format;
 
 const currencyMarkets = /** @type {const} */([
   'oficial-buy', 'oficial-sell',
@@ -41,7 +43,7 @@ async function cacheData() {
 
   for (const c of currencyMarkets) {
     const [market, buyOrSell] = c.split('-');
-    valuePerUnit[toCamelCase(c)].textContent = formatCurrency(currencies[market][buyOrSell]);
+    valuePerUnit[toCamelCase(c)].textContent = formatCurrencyARS(currencies[market][buyOrSell]);
   }
 
   return { success: true, currencies };
@@ -52,13 +54,17 @@ const amountForm = /**@type{ {input: HTMLInputElement, submit: HTMLButtonElement
   bindAllWithPrefix('amount-', /**@type{const}*/(['input', 'submit', 'error-message']))
 );
 
+amountForm.input.addEventListener('change', (ev) =>
+  amountForm.input.value = formatCurrencyARS(readCurrencyARS(amountForm.input.value))
+);
+
 /** @param {string} msg */
 function amountFormFail(msg) {
     amountForm.errorMessage.textContent = msg;
     amountForm.errorMessage.classList.remove('msg-ok');
     amountForm.errorMessage.classList.add('msg-error');
     for (const elem of Object.values(valueTotal)) {
-      elem.textContent = formatCurrency(0);
+      elem.textContent = formatCurrencyUSD(0);
     }
 }
 
@@ -73,12 +79,12 @@ function amountFormOk(input) {
     amountForm.errorMessage.classList.add('msg-ok');
     for (const [key, elem] of Object.entries(valueTotal)) {
       const [market, buyOrSell] = fromCamelCase(key).split('-');
-      elem.textContent = formatCurrency(currencyCache.currencies[market][buyOrSell] * input);
+      elem.textContent = formatCurrencyUSD(input / currencyCache.currencies[market][buyOrSell]);
     }
 }
 
 amountForm.submit.addEventListener('click', () => {
-  const input = Number(amountForm.input.value);
+  const input = Number(readCurrencyARS(amountForm.input.value));
   if (amountForm.input.value === '') {
     amountFormFail('Se requiere un número');
     return;
