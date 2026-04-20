@@ -1,0 +1,22 @@
+#win-banner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1rem;
+  border-radius: 10pt;
+  width: 10rem;
+  height: 8rem;
+  display: flex;
+  background-color: #fcd83b;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+#win-banner p {
+  margin: 0;
+  font-size: 1.3rem;
+}
