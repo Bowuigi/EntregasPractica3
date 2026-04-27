@@ -1,5 +1,6 @@
-CREATE DATABASE escuela;
-USE escuela;
+-- No se usan en SQLite
+-- CREATE DATABASE escuela;
+-- USE escuela;
 
 CREATE TABLE alumnos (
     id_alumno  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,

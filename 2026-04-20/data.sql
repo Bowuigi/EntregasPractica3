@@ -19,18 +19,18 @@ INSERT INTO profesores (nombre, email) VALUES
 ;
 
 INSERT INTO materias (nombre, curso, id_profesor, id_carrera) VALUES
-    ('Teología del Cuerpo', 2026, 7, 1),
-    ('Sacramentos', 2017, 2, 3),
-    ('Derecho Canónico', 2025, 9, 1),
-    ('Islam', 2020, 4, 2),
-    ('Herejías Comúnes', 1998, 5, 4),
-    ('Ángeles', 2000, 4, 3),
-    ('Efemérides', 2026, 8, 4),
-    ('Teoría de la Guerra Justa', 2018, 4, 1),
-    ('La Esencia del Amor', 2025, 10, 4),
-    ('Historia de la Iglesia', 2000, 9, 1),
-    ('Griego Koiné', 2025, 1, 3),
-    ('Latín', 2025, 2, 3)
+    ('Teología del Cuerpo', 2, 7, 1),
+    ('Sacramentos', 1, 2, 3),
+    ('Derecho Canónico', 2025, 4, 1),
+    ('Islam', 3, 4, 2),
+    ('Herejías Comúnes', 1, 5, 4),
+    ('Ángeles', 2, 4, 3),
+    ('Efemérides', 1, 8, 4),
+    ('Teoría de la Guerra Justa', 3, 4, 1),
+    ('La Esencia del Amor', 2, 10, 4),
+    ('Historia de la Iglesia', 4, 9, 1),
+    ('Griego Koiné', 2, 1, 3),
+    ('Latín', 3, 2, 3)
 ;
 
 INSERT INTO alumnos (nombre, edad, dni, email, id_carrera) VALUES
