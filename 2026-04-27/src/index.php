@@ -6,7 +6,7 @@ require_once __DIR__ . '/models/Usuario.php';
 $param_class = Usuario::class;
 $param_title = 'Mateo Crimella - Práctica 3';
 $param_parsers = [
-    'id' => 'intval',
+    $param_class::$id_column => 'intval',
     'nombre' => function (mixed $val) {
         if (!is_string($val) || $val === '') {
             throw new Exception('El nombre está vacío');

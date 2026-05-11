@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form_id = null;
 
     if (isset($_POST['id'])) {
-        $id_parse_result = $runParser($id_column, $_POST['id']);
+        $id_parse_result = $runParser($param_class::$id_column, $_POST['id']);
         if (!$id_parse_result['success']) {
             http_response_code(400);
             echo 'Invalid ID field';
@@ -129,24 +129,43 @@ $columns = array_merge([$id_column], $param_class::$fillable);
         <?php endforeach; ?>
     </ul>
     <form method="post">
+        <?php foreach ($columns as $col): ?>
+            <!---  TODO: Edit/create form  --!>
+        <?php endforeach; ?>
     </form>
     <table>
         <thead>
             <?php foreach ($columns as $col): ?>
                 <th><?= h($col) ?></th>
             <?php endforeach; ?>
+            <th>Acciones</th>
         </thead>
         <tbody>
             <?php foreach ($records as $rec): ?>
                 <tr>
                     <?php foreach ($columns as $col): ?>
-                        <td><?= h($rec->data[$col]) ?></td>
+                        <!---  TODO: Pointer handling  --!>
+                        <td id="row-<?= h($rec->id()) ?>-<?= h($col) ?>"><?= h($rec->data[$col]) ?></td>
                     <?php endforeach; ?>
+                    <td>
+                        <form method="post" style="display: inline;">
+                            <input type="hidden" name="operation" value="delete">
+                            <button type="submit" name="id" value="<?= h($rec->id()) ?>">Borrar</button>
+                        </form>
+                        <button type="button" onclick="edit(<?= h($rec->id()) ?>)">Editar</button>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
-    <script>
+    <script type="text/javascript">
+        function edit(id) {
+            const columns = <?= json_encode($columns) ?>;
+            for (const col of columns) {
+                const elem = document.getElementById(`row-${id}-${col}`);
+                console.log(elem);
+            }
+        }
     </script>
 </body>
 
