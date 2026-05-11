@@ -5,6 +5,18 @@ require_once __DIR__ . '/models/Usuario.php';
 // Call template
 $param_class = Usuario::class;
 $param_title = 'Mateo Crimella - Práctica 3';
+$param_names = [
+    $param_class::$id_column => 'ID',
+    'nombre' => 'Nombre',
+    'contrasena' => 'Contraseña',
+    'email' => 'E-mail',
+];
+$param_types = [
+    $param_class::$id_column => 'id_pk',
+    'nombre' => 'text',
+    'contrasena' => 'password',
+    'email' => 'email',
+];
 $param_parsers = [
     $param_class::$id_column => 'intval',
     'nombre' => function (mixed $val) {
@@ -13,16 +25,12 @@ $param_parsers = [
         }
         return $val;
     },
+    // This would obviously be hashed
     'contrasena' => function (mixed $val) {
         if (!is_string($val) || $val === '') {
             throw new Exception('La contraseña está vacía');
         }
-
-        $hash = password_hash($val, PASSWORD_DEFAULT);
-        if (!is_string($hash)) {
-            throw new Exception('Fallo al realizar el hash a la contraseña');
-        }
-        return $hash;
+        return $val;
     },
     'email' => function (mixed $val) {
         if (!is_string($val) || $val === '') {

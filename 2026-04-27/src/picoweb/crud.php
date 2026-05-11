@@ -1,11 +1,15 @@
 <?php
 // Module Parameters:
 /** @var Model $param_class */
-$param_class = $param_class ?? throw new Error('Undefined class');
+$param_class = $param_class ?? throw new Exception('Undefined class');
 /** @var array<string, Callable> $param_parsers */
-$param_parsers = $param_parsers ?? throw new Error('Undefined parsers');
+$param_parsers = $param_parsers ?? throw new Exception('Undefined parsers');
 /** @var string $param_title */
-$param_title = $param_title ?? throw new Error('Undefined title');
+$param_title = $param_title ?? throw new Exception('Undefined title');
+/** @var array<string, 'id_pk' | 'id_fk' | 'text' | 'password' | 'email' | 'boolean' | 'date' | 'number'> */
+$param_types = $param_types ?? throw new Exception('Undefined types');
+/** @var array<string, string> $param_names */
+$param_names = $param_names ?? throw new Exception('Undefined user-readable names');
 
 //// Helpers
 
@@ -19,7 +23,7 @@ $runParser = function (string $name, string $field) use ($param_parsers) {
     try {
         return [
             'success' => true,
-            'result' => $param_parsers[$name]($field),
+            'value' => $param_parsers[$name]($field),
         ];
     } catch (Exception $exn) {
         return [
@@ -30,8 +34,10 @@ $runParser = function (string $name, string $field) use ($param_parsers) {
 };
 
 $validation_errors = [];
-$runParsers = function () use ($param_class, $runParser, &$validation_errors): array {
-    $final_values = [];
+$runParsers = function (int|null $id) use ($param_class, $runParser, &$validation_errors): array {
+    $final_values = [
+        $param_class::$id_column => $id,
+    ];
 
     foreach ($param_class::$fillable as $column) {
         $raw_value = $_POST["form_{$column}"] ?? '';
@@ -51,9 +57,37 @@ $runParsers = function () use ($param_class, $runParser, &$validation_errors): a
     return $validation_errors;
 };
 
+$resolved_pointers = [];
+$columnToInput = function (string $column, string $html_id) use ($param_types, $resolved_pointers) {
+    $input_type = $param_types[$column];
+    switch ($input_type) {
+        case 'id_pk':
+            return "<input type=\"hidden\" id=\"{$html_id}\" name=\"id\">";
+        case 'text':
+            return "<input type=\"text\" id=\"{$html_id}\" name=\"form_{$column}\">";
+        case 'password':
+            return "<input type=\"password\" id=\"{$html_id}\" name=\"form_{$column}\">";
+        case 'email':
+            return "<input type=\"email\" id=\"{$html_id}\" name=\"form_{$column}\">";
+        case 'boolean':
+            return "<input type=\"checkbox\" id=\"{$html_id}\" name=\"form_{$column}\">";
+        case 'date':
+            return "<input type=\"date\" id=\"{$html_id}\" name=\"form_{$column}\">";
+        case 'number':
+            return "<input type=\"number\" id=\"{$html_id}\" name=\"form_{$column}\">";
+        case 'id_fk': {
+                $output = "<select id=\"{$html_id}\" name=\"form_{$column}\">";
+                foreach ($resolved_pointers as $id => $repr) {
+                    $output .= "<option value=\"{$id}\">{$repr}</option>";
+                }
+                $output .= '</select>';
+                return $output;
+            }
+    }
+};
+
 //// API-like operations
 
-$resolved_pointers = [];
 foreach ($param_class::$pointers as $column => $model_class) {
     $resolved_pointers[$column] = $model_class::representatives();
 }
@@ -81,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo 'Invalid ID field';
             exit;
         }
-        $form_id = $id_parse_result['result'] ?? null;
+        $form_id = $id_parse_result['value'] ?? null;
     }
 
     switch ($_POST['operation'] ?? '') {
@@ -95,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 break;
             }
         case 'modify': {
-                $runParsers();
+                $runParsers($form_id);
                 break;
             }
         default: {
@@ -128,15 +162,21 @@ $columns = array_merge([$id_column], $param_class::$fillable);
             <li><?= h($err) ?></li>
         <?php endforeach; ?>
     </ul>
-    <form method="post">
+    <form method="post" id="modify-form">
+        <input type="hidden" name="operation" value="modify">
         <?php foreach ($columns as $col): ?>
-            <!---  TODO: Edit/create form  --!>
+            <?php if ($col !== $param_class::$id_column): ?>
+            <label for="form-<?= h($col) ?>"><?= h($param_names[$col]) ?></label>
+            <?php endif; ?>
+            <?= $columnToInput($col, "form-{$col}") ?>
         <?php endforeach; ?>
+        <button type="reset" onclick="fullFormReset('modify-form')">Limpiar formulario</button>
+        <button type="submit">Crear / Modificar</button>
     </form>
     <table>
         <thead>
             <?php foreach ($columns as $col): ?>
-                <th><?= h($col) ?></th>
+                <th><?= h($param_names[$col]) ?></th>
             <?php endforeach; ?>
             <th>Acciones</th>
         </thead>
@@ -163,8 +203,19 @@ $columns = array_merge([$id_column], $param_class::$fillable);
             const columns = <?= json_encode($columns) ?>;
             for (const col of columns) {
                 const elem = document.getElementById(`row-${id}-${col}`);
-                console.log(elem);
+                const formElem = document.getElementById(`form-${col}`);
+
+                switch (formElem.type) {
+                    default: formElem.value = elem.textContent;
+                }
             }
+        }
+
+        function fullFormReset(id) {
+            const form = document.getElementById(id);
+            form.reset();
+            const id_input = document.getElementById(`form-<?= $id_column ?>`);
+            id_input.value = null;
         }
     </script>
 </body>
