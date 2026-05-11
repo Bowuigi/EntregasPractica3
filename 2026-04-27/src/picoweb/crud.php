@@ -57,8 +57,7 @@ $runParsers = function (int|null $id) use ($param_class, $runParser, &$validatio
     return $validation_errors;
 };
 
-$resolved_pointers = [];
-$columnToInput = function (string $column, string $html_id) use ($param_types, $resolved_pointers) {
+$columnToInput = function (string $column, string $html_id, array|null $pointer_representatives) use ($param_types) {
     $input_type = $param_types[$column];
     switch ($input_type) {
         case 'id_pk':
@@ -77,7 +76,7 @@ $columnToInput = function (string $column, string $html_id) use ($param_types, $
             return "<input type=\"number\" id=\"{$html_id}\" name=\"form_{$column}\">";
         case 'id_fk': {
                 $output = "<select id=\"{$html_id}\" name=\"form_{$column}\">";
-                foreach ($resolved_pointers as $id => $repr) {
+                foreach ($pointer_representatives as $id => $repr) {
                     $output .= "<option value=\"{$id}\">{$repr}</option>";
                 }
                 $output .= '</select>';
@@ -88,6 +87,7 @@ $columnToInput = function (string $column, string $html_id) use ($param_types, $
 
 //// API-like operations
 
+$resolved_pointers = [];
 foreach ($param_class::$pointers as $column => $model_class) {
     $resolved_pointers[$column] = $model_class::representatives();
 }
@@ -166,9 +166,9 @@ $columns = array_merge([$id_column], $param_class::$fillable);
         <input type="hidden" name="operation" value="modify">
         <?php foreach ($columns as $col): ?>
             <?php if ($col !== $param_class::$id_column): ?>
-            <label for="form-<?= h($col) ?>"><?= h($param_names[$col]) ?></label>
+                <label for="form-<?= h($col) ?>"><?= h($param_names[$col]) ?></label>
             <?php endif; ?>
-            <?= $columnToInput($col, "form-{$col}") ?>
+            <?= $columnToInput($col, "form-{$col}", $resolved_pointers[$col] ?? null) ?>
         <?php endforeach; ?>
         <button type="reset" onclick="fullFormReset('modify-form')">Limpiar formulario</button>
         <button type="submit">Crear / Modificar</button>
@@ -184,8 +184,11 @@ $columns = array_merge([$id_column], $param_class::$fillable);
             <?php foreach ($records as $rec): ?>
                 <tr>
                     <?php foreach ($columns as $col): ?>
-                        <!---  TODO: Pointer handling  --!>
-                        <td id="row-<?= h($rec->id()) ?>-<?= h($col) ?>"><?= h($rec->data[$col]) ?></td>
+                        <?php if ($param_types[$col] === 'id_fk'): ?>
+                            <td id="row-<?= h($rec->id()) ?>-<?= h($col) ?>" data-value="<?= h($rec->data[$col]) ?>"><?= h($resolved_pointers[$col][$rec->data[$col]]) ?></td>
+                        <?php else: ?>
+                            <td id="row-<?= h($rec->id()) ?>-<?= h($col) ?>"><?= h($rec->data[$col]) ?></td>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                     <td>
                         <form method="post" style="display: inline;">
@@ -205,8 +208,16 @@ $columns = array_merge([$id_column], $param_class::$fillable);
                 const elem = document.getElementById(`row-${id}-${col}`);
                 const formElem = document.getElementById(`form-${col}`);
 
+                // Works for date, text, password, email and number
                 switch (formElem.type) {
-                    default: formElem.value = elem.textContent;
+                    case 'select-one': {
+                        formElem.value = elem.dataset.value;
+                        break;
+                    }
+                    default: {
+                        formElem.value = elem.textContent;
+                        break;
+                    }
                 }
             }
         }

@@ -16,7 +16,4 @@ INSERT INTO notas (id_nota) VALUES
 ;
 
 ALTER TABLE materias ADD COLUMN
-  nota_aprobacion INTEGER NOT NULL DEFAULT 6 REFERENCES notas (id_nota);
-
-ALTER TABLE alumnos ADD COLUMN
-  fecha_nacimiento DATE;
+  nota_aprobacion INTEGER NOT NULL DEFAULT 6 REFERENCES notas (id_nota) ON DELETE RESTRICT;

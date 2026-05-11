@@ -73,6 +73,7 @@ abstract class Model {
     public static function representatives(): array {
         $data = Services::with('db')->statement(
             'SELECT ' . static::$id_column . ' as id, ' . static::$representative . ' as repr FROM ' . static::$sql_table,
+            []
         );
         $result = [];
         foreach ($data as $datum) {
